@@ -8,7 +8,7 @@ export default class Socket {
     private pingRequests;
     private requestId;
     private pendingRequests;
-    locals: {
+    data: {
         [key: string]: any;
     };
     private handlers;
