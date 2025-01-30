@@ -1,7 +1,7 @@
 import { Server as ServerHTTP } from 'http';
 import Socket from './socket.class';
 export default class Server {
-    clients: {
+    sockets: {
         [uuid: string]: Socket;
     };
     private handlers;
