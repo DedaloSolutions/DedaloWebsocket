@@ -8,6 +8,9 @@ export default class WebsocketClientServer {
     private pingRequests;
     private requestId;
     private pendingRequests;
+    locals: {
+        [key: string]: any;
+    };
     private handlers;
     constructor(socket: internal.Duplex);
     /**
