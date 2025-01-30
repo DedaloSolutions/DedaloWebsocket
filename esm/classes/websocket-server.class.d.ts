@@ -11,13 +11,13 @@ export default class WebsocketServer {
      * @param type Il tipo di evento
      * @param handler La funzione da richiamare all'emmissione dell'evento
      */
-    on(type: 'open', handler: (client: WebsocketClientServer, uuid: string) => void): void;
+    on(type: 'connection', handler: (client: WebsocketClientServer, uuid: string) => void): void;
     /**
      * Rimuove un handler da un dato evento
      * @param type Il tipo di evento
      * @param handler La funzione da rimuovere o, se non specificata, rimuove tutti gli handler
      */
-    off(type: 'open', handler: (client: WebsocketClientServer, uuid: string) => void): void;
+    off(type: 'connection', handler: (client: WebsocketClientServer, uuid: string) => void): void;
     /**
      * Funzione di supporto interna
      * Solleva un'evento richiamando tutti gli handler ad esso associati

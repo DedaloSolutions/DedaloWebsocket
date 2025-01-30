@@ -64,24 +64,24 @@ export default class WebsocketClientServer {
      * @param type Il tipo di evento
      * @param handler La funzione da richiamare all'emmissione dell'evento
      */
+    on(type: 'handshake', handler: (data: any) => void): void;
     on(type: 'error', handler: (error: Error) => void): void;
     on(type: 'close', handler: (data: {
         code: number;
         reason: string;
     }) => void): void;
-    on(type: 'handshake', handler: (data: any) => boolean): void;
     on(type: string, handler: (data: any) => any): void;
     /**
      * Rimuove un handler da un dato evento
      * @param type Il tipo di evento
      * @param handler La funzione da rimuovere o, se non specificata, rimuove tutti gli handler
      */
+    off(type: 'handshake', handler: (data: any) => void): void;
     off(type: 'error', handler: (error: Error) => void): void;
     off(type: 'close', handler: (data: {
         code: number;
         reason: string;
     }) => void): void;
-    off(type: 'handshake', handler: (data: any) => boolean): void;
     off(type: string, handler: (data: any) => any): void;
     /**
      * Funzione di supporto interna
