@@ -73,6 +73,7 @@ export default class Client {
     on(type: 'open', handler: (event: WebSocket.Event) => void): void;
     on(type: 'error', handler: (event: WebSocket.ErrorEvent) => void): void;
     on(type: 'close', handler: (event: WebSocket.CloseEvent) => void): void;
+    on(type: '*', handler: (type: string, data: any) => void): void;
     on(type: string, handler: (data: any, callback: (result: any) => Promise<void> | void) => any): void;
     /**
      * Rimuove un handler da un dato evento
@@ -82,6 +83,7 @@ export default class Client {
     off(type: 'open', handler?: (event: WebSocket.Event) => void): void;
     off(type: 'error', handler?: (event: WebSocket.ErrorEvent) => void): void;
     off(type: 'close', handler?: (event: WebSocket.CloseEvent) => void): void;
+    off(type: '*', handler: (type: string, data: any) => void): void;
     off(type: string, handler?: (data: any, callback: (result: any) => Promise<void> | void) => any): void;
     /**
      * Funzione di supporto interna
