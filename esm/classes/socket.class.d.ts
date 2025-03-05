@@ -70,7 +70,7 @@ export default class Socket {
         code: number;
         reason: string;
     }) => void): void;
-    on(type: '*', handler: (data: any) => void): void;
+    on(type: '*', handler: (type: string, data: any) => void): void;
     on(type: string, handler: (data: any) => any): void;
     /**
      * Rimuove un handler da un dato evento
