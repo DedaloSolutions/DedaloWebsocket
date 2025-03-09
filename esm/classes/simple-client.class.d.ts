@@ -1,4 +1,5 @@
 export default class SimpleClient {
+    private heartbeatInterval;
     private heartbeatTimeout?;
     private url?;
     private reconnectTimeout?;
@@ -30,6 +31,12 @@ export default class SimpleClient {
      * Ottiene lo stato attuale del websocket
      */
     get status(): 'connecting' | 'handshake' | 'open' | 'closing' | 'closed';
+    /**
+     * Funzione di supporto interna
+     * Richiamata alla connessione o all'arrivo di ping o messaggi.
+     * Verifica che i ping del server arrivino e che, quindi, il websocket sia ancora connesso.
+     */
+    private checkHeartbeat;
     /**
      * Solleva un'evento e invia la richiesta al client
      * @param eventName Il nome dell'evento
