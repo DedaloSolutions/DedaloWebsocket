@@ -1,3 +1,4 @@
+import { Event, CloseEvent } from "ws";
 export default class SimpleClient {
     private heartbeatInterval;
     private heartbeatTimeout?;
