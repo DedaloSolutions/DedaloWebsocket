@@ -1,4 +1,4 @@
-import WebSocket from 'ws';
+import { Event, CloseEvent } from "ws";
 export default class Client {
     private heartbeatInterval;
     private heartbeatTimeout?;
@@ -7,6 +7,7 @@ export default class Client {
     private socket?;
     private handshakeData?;
     private handshakeStatus;
+    private requestedDisconnected;
     private requestId;
     private pendingRequests;
     private handlers;
@@ -45,7 +46,7 @@ export default class Client {
      * @param callback La funzione di callback; se presente, richiede una risposta al server e richiama il callback con la risposta come parametro
      * @param requestTimeout Opzionale, il tempo in ms dopo il quale considerare la richiesta in timeout
      */
-    emit(eventName: string, payload: any, callback?: (response: any) => void, requestTimeout?: number): void;
+    emit(eventName: string, payload: any, callback?: (response: any) => void, requestTimeout?: number): Promise<void>;
     /**
      * Funzione di supporto interna
      * Decodifica i dati in arrivo e gestire richieste e risposte asincrone
@@ -70,21 +71,21 @@ export default class Client {
      * @param type Il tipo di evento
      * @param handler La funzione da richiamare all'emmissione dell'evento
      */
-    on(type: 'open', handler: (event: WebSocket.Event) => void): void;
-    on(type: 'error', handler: (event: WebSocket.ErrorEvent) => void): void;
-    on(type: 'close', handler: (event: WebSocket.CloseEvent) => void): void;
+    on(type: 'open', handler: (event: Event) => void): void;
+    on(type: 'error', handler: (event: Event) => void): void;
+    on(type: 'close', handler: (event: CloseEvent) => void): void;
     on(type: '*', handler: (type: string, data: any) => void): void;
-    on(type: string, handler: (data: any, callback: (result: any) => Promise<void> | void) => any): void;
+    on(type: string, handler: (data: any) => any): void;
     /**
      * Rimuove un handler da un dato evento
      * @param type Il tipo di evento
      * @param handler La funzione da rimuovere o, se non specificata, rimuove tutti gli handler
      */
-    off(type: 'open', handler?: (event: WebSocket.Event) => void): void;
-    off(type: 'error', handler?: (event: WebSocket.ErrorEvent) => void): void;
-    off(type: 'close', handler?: (event: WebSocket.CloseEvent) => void): void;
+    off(type: 'open', handler?: (event: Event) => void): void;
+    off(type: 'error', handler?: (event: Event) => void): void;
+    off(type: 'close', handler?: (event: CloseEvent) => void): void;
     off(type: '*', handler: (type: string, data: any) => void): void;
-    off(type: string, handler?: (data: any, callback: (result: any) => Promise<void> | void) => any): void;
+    off(type: string, handler?: (data: any) => any): void;
     /**
      * Funzione di supporto interna
      * Solleva un'evento richiamando tutti gli handler ad esso associati

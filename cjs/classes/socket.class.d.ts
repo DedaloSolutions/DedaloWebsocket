@@ -2,7 +2,7 @@ import { IncomingMessage } from 'http';
 import internal from 'stream';
 export default class Socket {
     private socket;
-    private status;
+    private _status;
     private readonly pingInterval;
     private readonly pingTimeout;
     private pingRequests;
@@ -21,6 +21,10 @@ export default class Socket {
      */
     disconnect(code?: number, reason?: string, timeout?: number | null): Promise<void>;
     /**
+     * Ottiene lo stato attuale del websocket
+     */
+    get status(): 'handshake' | 'open' | 'closing' | 'closed';
+    /**
      * Funzione di supporto interna
      * @param type Il tipo di pacchetto da inviare; Determina l'opcode
      * @param data Il payload
@@ -33,7 +37,7 @@ export default class Socket {
      * @param callback La funzione di callback; se presente, richiede una risposta al server e richiama il callback con la risposta come parametro
      * @param requestTimeout Opzionale, il tempo in ms dopo il quale considerare la richiesta in timeout
      */
-    emit(eventName: string, payload: any, callback?: (response: any) => void, requestTimeout?: number): void;
+    emit(eventName: string, payload: any, callback?: (response: any) => void, requestTimeout?: number): Promise<void>;
     /**
      * Funzione di supporto interna
      * Decodifica i dati in arrivo e gestire richieste e risposte asincrone
@@ -55,7 +59,7 @@ export default class Socket {
     private decode;
     /**
      * Funzione di supporto interna
-     * Richiamata alla connessione o all'arrivo di ping o messaggi.
+     * Richiamata al termine dell'handshake o all'arrivo di ping o messaggi.
      * Verifica che i ping del server arrivino e che, quindi, il websocket sia ancora connesso.
      */
     private checkHeartbeat;
