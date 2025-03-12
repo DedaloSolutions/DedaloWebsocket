@@ -53,10 +53,6 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2"
   },
-  "dependencies": {
-    "reflect-metadata": "^0.2.2",
-    "ws": "^8.18.0"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/DedaloSolutions/DedaloExpress.git"
@@ -64,5 +60,8 @@
   "bugs": {
     "url": "https://github.com/DedaloSolutions/DedaloExpress/issues"
   },
-  "homepage": "https://github.com/DedaloSolutions/DedaloExpress#readme"
+  "homepage": "https://github.com/DedaloSolutions/DedaloExpress#readme",
+  "optionalDependencies": {
+    "ws": "^8.18.1"
+  }
 }

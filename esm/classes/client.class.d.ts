@@ -1,4 +1,3 @@
-import { Event, CloseEvent } from "ws";
 export default class Client {
     private heartbeatInterval;
     private heartbeatTimeout?;
@@ -12,7 +11,7 @@ export default class Client {
     private pendingRequests;
     private handlers;
     /**
-     * Connette il websocket
+     * Connette il WebSocketClass
      * @param url L'url al quale connettersi. Obbligatorio alla prima connessione.
      * @param allowReject Opzionale, indica se sollevare eccezioni in caso di errore. Default: false
      * @param reconnectTimeout Opzionale, indica il periodo di tempo in ms prima di ritentare la connessione. Se non specificato, mantiene l'ultimo valore inserito.
@@ -24,19 +23,19 @@ export default class Client {
         reconnectTimeout?: number | null;
     }): Promise<void>;
     /**
-     * Disconnette il websocket
+     * Disconnette il WebSocketClass
      * @param code Il codice di stato con il quale chiudere la connessione
      * @param reason La ragione per il quale la connessione è stata chiusa
      */
     disconnect(code?: number, reason?: string): Promise<void>;
     /**
-     * Ottiene lo stato attuale del websocket
+     * Ottiene lo stato attuale del WebSocketClass
      */
     get status(): 'connecting' | 'handshake' | 'open' | 'closing' | 'closed';
     /**
      * Funzione di supporto interna
      * Richiamata alla connessione o all'arrivo di ping o messaggi.
-     * Verifica che i ping del server arrivino e che, quindi, il websocket sia ancora connesso.
+     * Verifica che i ping del server arrivino e che, quindi, il WebSocketClass sia ancora connesso.
      */
     private checkHeartbeat;
     /**
@@ -46,7 +45,7 @@ export default class Client {
      * @param callback La funzione di callback; se presente, richiede una risposta al server e richiama il callback con la risposta come parametro
      * @param requestTimeout Opzionale, il tempo in ms dopo il quale considerare la richiesta in timeout
      */
-    emit(eventName: string, payload: any, callback?: (response: any) => void, requestTimeout?: number): Promise<void>;
+    emit(eventName: string, payload: any, callback?: (response: any) => void, requestTimeout?: number): void;
     /**
      * Funzione di supporto interna
      * Decodifica i dati in arrivo e gestire richieste e risposte asincrone
@@ -61,7 +60,7 @@ export default class Client {
     private encode;
     /**
      * Funzione di supporto interna
-     * Richiamata dopo aver ricevuto una richiesta o una risposta dal websocket
+     * Richiamata dopo aver ricevuto una richiesta o una risposta dal WebSocketClass
      * @param data Il Buffer da decodificare
      * @returns Il dato originale, tratto dal contenuto in JSON del Buffer
      */
