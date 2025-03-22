@@ -81,7 +81,6 @@ export default class Socket {
         code: number;
         reason: string;
     }) => void): void;
-    on(type: '*', handler: (type: string, data: any) => void): void;
     on(type: string, handler: (data: any) => any): void;
     /**
      * Rimuove un handler da un dato evento
@@ -94,7 +93,6 @@ export default class Socket {
         code: number;
         reason: string;
     }) => void): void;
-    off(type: '*', handler?: (type: string, data: any) => any): void;
     off(type: string, handler?: (data: any) => any): void;
     /**
      * Funzione di supporto interna
