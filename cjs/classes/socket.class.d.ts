@@ -6,11 +6,9 @@ export default class Socket {
     private readonly pingInterval;
     private readonly pingTimeout;
     private pingRequests;
+    private pingId;
     private requestId;
     private pendingRequests;
-    data: {
-        [key: string]: any;
-    };
     private handlers;
     constructor(socket: internal.Duplex);
     /**
@@ -18,31 +16,38 @@ export default class Socket {
      * @param code Il codice di stato con il quale chiudere la connessione
      * @param reason La ragione per il quale la connessione è stata chiusa
      * @param timeout Opzionale. Il tempo massimo, in ms, per attendere il pacchetto di chiusura di risposta.
+     *                Se minore o uguale a 0, allora la connessione non attende il pacchetto di risposta e chiude immediatamente la connessione.
      */
-    disconnect(code?: number, reason?: string, timeout?: number | null): Promise<void>;
+    disconnect(code?: number, reason?: string, timeout?: number): Promise<void>;
+    /**
+     * Funzione di supporto interna.
+     * Disconnette immediatamente il websocket, senza inviare alcun pacchetto di conferma.
+     * @param code Il codice di stato con il quale chiudere la connessione
+     * @param reason La ragione per il quale la connessione è stata chiusa
+     */
+    private close;
     /**
      * Ottiene lo stato attuale del websocket
      */
-    get status(): 'handshake' | 'open' | 'closing' | 'closed';
+    get status(): "handshake" | "open" | "closing" | "closed";
+    /**
+     * Funzione di supporto interna
+     * Richiamata al termine dell'handshake o all'arrivo di ping o messaggi.
+     * Verifica che i ping del server arrivino e che, quindi, il websocket sia ancora connesso.
+     */
+    private checkHeartbeat;
+    /**
+     * Funzione di supporto interna
+     * Decodifica i dati in arrivo secondo il protocollo websocket
+     * @param rawData I dati in arrivo dal websocket
+     */
+    private receive;
     /**
      * Funzione di supporto interna
      * @param type Il tipo di pacchetto da inviare; Determina l'opcode
      * @param data Il payload
      */
     private send;
-    /**
-     * Solleva un'evento e invia la richiesta al client
-     * @param eventName Il nome dell'evento
-     * @param payload Il payload da mandare con l'evento; Sarà il primo parametro della funzione richiamata dal server
-     * @param callback La funzione di callback; se presente, richiede una risposta al server e richiama il callback con la risposta come parametro
-     * @param requestTimeout Opzionale, il tempo in ms dopo il quale considerare la richiesta in timeout
-     */
-    emit(eventName: string, payload: any, callback?: (response: any) => void, requestTimeout?: number): Promise<void>;
-    /**
-     * Funzione di supporto interna
-     * Decodifica i dati in arrivo e gestire richieste e risposte asincrone
-     */
-    private handle;
     /**
      * Funzione di supporto interna
      * Richiamata prima di emettere un evento e convertire i dati in un JSON Buffer
@@ -58,11 +63,13 @@ export default class Socket {
      */
     private decode;
     /**
-     * Funzione di supporto interna
-     * Richiamata al termine dell'handshake o all'arrivo di ping o messaggi.
-     * Verifica che i ping del server arrivino e che, quindi, il websocket sia ancora connesso.
+     * Solleva un'evento e invia la richiesta al client
+     * @param eventName Il nome dell'evento
+     * @param payload Il payload da mandare con l'evento; Sarà il primo parametro della funzione richiamata dal server
+     * @param callback La funzione di callback; se presente, richiede una risposta al server e richiama il callback con la risposta come parametro
+     * @param requestTimeout Opzionale, il tempo in ms dopo il quale considerare la richiesta in timeout
      */
-    private checkHeartbeat;
+    emit(eventName: string, payload: any, callback?: (response: any) => void, requestTimeout?: number): Promise<void>;
     /**
      * Aggiunge un handler ad un dato evento
      * @param type Il tipo di evento
