@@ -1,5 +1,5 @@
 export default class Client {
-    private socket;
+    private socket?;
     private _status;
     private heartbeatInterval;
     private heartbeatTimeout?;
