@@ -9,6 +9,7 @@ export default class Socket {
     private pingId;
     private requestId;
     private pendingRequests;
+    handshake: any;
     private handlers;
     constructor(socket: internal.Duplex);
     /**
